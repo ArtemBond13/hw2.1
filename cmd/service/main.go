@@ -31,20 +31,18 @@ func main() {
 	master2 := tinkoff.IssuerCard(0003, "Visa", 478312, "8765 3687 7462 8472")
 
 	tinkoff.Cards = append(tinkoff.Cards, &visa)
+	for _, val := range tinkoff.Cards {
+		fmt.Println(val)
+	}
+	fmt.Println("")
 
-	fmt.Println(visa, visa2, master2)
-	fmt.Println(tinkoff.Cards)
-
-	fmt.Println(tinkoff.SearchByNumber("5322 6729 6287 6282"))
-
+	tinkoff.Cards = append(tinkoff.Cards, visa2, master2)
 	for _, val := range tinkoff.Cards {
 		fmt.Println(val)
 	}
 
-	fmt.Println("")
+	//fmt.Println(visa, visa2, master2)
+	//fmt.Println(tinkoff.Cards)
 
-	//total := []card.Service{
-	//	master,
-	//	visa,
-	//}
+	fmt.Println(tinkoff.SearchByNumber("5322 6729 6287 6282"))
 }
