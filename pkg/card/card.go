@@ -16,7 +16,8 @@ type Service struct {
 	Cards    []*Card
 }
 
-func (s Service) IssuerCard(id int64, issuer string, balance int64, number string) *Card {
+// IssuerCard добавляет карту
+func (s *Service) IssuerCard(id int64, issuer string, balance int64, number string) *Card {
 	card := &Card{
 		Id:       id,
 		Issuer:   issuer,
@@ -29,23 +30,8 @@ func (s Service) IssuerCard(id int64, issuer string, balance int64, number strin
 	return card
 }
 
-// перевод денег с карты from на карту to в количестве amount
-func (s *Service) Card2Card(from, to string, amount int) (total int, ok bool) {
-	total = 0
-	//isFrom := false
-	//isTo := false
-	s.SearchByNumber(from)
-	s.SearchByNumber(to)
-
-	//if isFrom == true && isTo == true {
-	//	transfer.NewService(s, 0, 0)
-	//	if s
-	//}
-	return
-}
-
 // SearchByNumber поиска карты по номеру
-func (s *Service) SearchByNumber(number string) *Card {
+func SearchByNumber(s *Service, number string) *Card {
 	for _, card := range s.Cards {
 		if card.Number == number {
 			return card

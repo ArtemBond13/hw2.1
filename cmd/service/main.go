@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"hw2.1/pkg/card"
+	"github.com/ArtemBond13/hw2.1/pkg/card"
+	"github.com/ArtemBond13/hw2.1/pkg/transfer"
 )
 
 func main() {
@@ -24,11 +25,11 @@ func main() {
 		Issuer:   "VISA",
 		Balance:  2342234,
 		Currency: "",
-		Number:   "5322 6729 6287 6282",
+		Number:   "4539526713450817073",
 		Icon:     "http://",
 	}
-	visa2 := tinkoff.IssuerCard(0002, "Visa", 45679, "2345 4572 2845 8472")
-	master2 := tinkoff.IssuerCard(0003, "Visa", 478312, "8765 3687 7462 8472")
+	visa2 := tinkoff.IssuerCard(0002, "Visa", 45679, "4024007196899149")
+	master2 := tinkoff.IssuerCard(0003, "MasterCard", 478312, "5149611582430745")
 
 	tinkoff.Cards = append(tinkoff.Cards, &visa)
 	for _, val := range tinkoff.Cards {
@@ -36,13 +37,16 @@ func main() {
 	}
 	fmt.Println("")
 
-	tinkoff.Cards = append(tinkoff.Cards, visa2, master2)
+	//tinkoff.Cards = append(tinkoff.Cards, visa2, master2)
 	for _, val := range tinkoff.Cards {
 		fmt.Println(val)
 	}
 
-	//fmt.Println(visa, visa2, master2)
+	fmt.Println(visa, visa2, master2)
 	//fmt.Println(tinkoff.Cards)
 
-	fmt.Println(tinkoff.SearchByNumber("5322 6729 6287 6282"))
+	//fmt.Println(tinkoff.SearchByNumber("5322 6729 6287 6282"))
+	tinkof := transfer.Service{&tinkoff, 0, 10}
+	tinkof.Card2Card("4539526713450817073", "4024007196899149", 1000)
+	// fmt.Println(tinkof.CardSvc.Cards)
 }

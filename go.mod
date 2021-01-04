@@ -1,1 +1,1 @@
-module "hw2.1"
+module "github.com/ArtemBond13/hw2.1"
