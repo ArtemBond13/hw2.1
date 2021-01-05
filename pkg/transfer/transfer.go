@@ -2,7 +2,7 @@ package transfer
 
 import (
 	"fmt"
-	"hw2.1/pkg/card"
+	"github.com/ArtemBond13/hw2.1/pkg/card"
 )
 
 type Service struct {
@@ -22,8 +22,9 @@ func NewService(cardSVC *card.Service, percent float64, minAmount int) *Service 
 // перевод денег с карты from на карту to в количестве amount
 func (s *Service) Card2Card(from, to string, amount int64) (total int64, ok bool) {
 	total = 0
-	ofFrom := card.SearchByNumber(s.CardSvc, from)
-	onTo := card.SearchByNumber(s.CardSvc, to)
+	ofFrom := s.CardSvc.SearchByNumber(from)
+	onTo := s.CardSvc.SearchByNumber(to)
+	fmt.Print(ofFrom.Balance, "\n", onTo.Balance, "\n")
 	NewService(s.CardSvc, 0.5, 10_00)
 
 	commission := int64(float64(amount) * 0.5)
@@ -58,8 +59,8 @@ func (s *Service) Card2Card(from, to string, amount int64) (total int64, ok bool
 		ofFrom.Balance -= total
 		onTo.Balance += amount
 		ok = true
+		fmt.Print(ofFrom.Balance, "\n", onTo.Balance, "\n")
 		return
 	}
-	fmt.Print(ofFrom.Balance, "\n", onTo.Balance, "\n")
 	return
 }

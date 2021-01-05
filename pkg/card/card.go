@@ -31,7 +31,7 @@ func (s *Service) IssuerCard(id int64, issuer string, balance int64, number stri
 }
 
 // SearchByNumber поиска карты по номеру
-func SearchByNumber(s *Service, number string) *Card {
+func (s *Service) SearchByNumber(number string) *Card {
 	for _, card := range s.Cards {
 		if card.Number == number {
 			return card
