@@ -47,6 +47,6 @@ func main() {
 
 	//fmt.Println(tinkoff.SearchByNumber("5322 6729 6287 6282"))
 	tinkof := transfer.Service{&tinkoff, 0, 10}
-	fmt.Println(tinkof.Card2Card("4539526713450817073", "4024007196899149", 100_000_00))
+	fmt.Println(tinkof.Card2Card("453952671345081707", "4024007196899149", 100_000_00))
 	// fmt.Println(tinkof.CardSvc.Cards)
 }

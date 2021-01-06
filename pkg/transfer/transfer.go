@@ -8,10 +8,10 @@ import (
 type Service struct {
 	CardSvc           *card.Service
 	PercentTransfer   float64
-	MinAmountTransfer int
+	MinAmountTransfer int64
 }
 
-func NewService(cardSVC *card.Service, percent float64, minAmount int) *Service {
+func NewService(cardSVC *card.Service, percent float64, minAmount int64) *Service {
 	return &Service{
 		CardSvc:           cardSVC,
 		PercentTransfer:   percent,
@@ -24,23 +24,21 @@ func (s *Service) Card2Card(from, to string, amount int64) (total int64, ok bool
 	total = 0
 	ofFrom := s.CardSvc.SearchByNumber(from)
 	onTo := s.CardSvc.SearchByNumber(to)
-	fmt.Print(ofFrom.Balance, "\n", onTo.Balance, "\n")
-	NewService(s.CardSvc, 0.5, 10_00)
+	cardService := NewService(s.CardSvc, 0.5, 10_00)
 
-	commission := int64(float64(amount) * 0.5)
-	if commission < 10_00 {
-		commission = 10_00
+	commission := int64(float64(amount) * cardService.PercentTransfer)
+	if commission < cardService.MinAmountTransfer {
+		commission = cardService.MinAmountTransfer
 	}
 
 	if ofFrom == nil && onTo == nil {
 		total = amount + commission
 		ok = true
-		return
 	} else if ofFrom == nil && onTo != nil {
 		onTo.Balance += amount
 		total = amount + commission
 		ok = true
-		return
+		fmt.Print(onTo.Balance, "\n")
 	} else if ofFrom != nil && onTo == nil {
 		total = amount + commission
 		if ofFrom.Balance < total {
@@ -49,7 +47,6 @@ func (s *Service) Card2Card(from, to string, amount int64) (total int64, ok bool
 		}
 		ofFrom.Balance -= total
 		ok = true
-		return
 	} else {
 		total = amount + commission
 		if ofFrom.Balance < total {
@@ -59,8 +56,6 @@ func (s *Service) Card2Card(from, to string, amount int64) (total int64, ok bool
 		ofFrom.Balance -= total
 		onTo.Balance += amount
 		ok = true
-		fmt.Print(ofFrom.Balance, "\n", onTo.Balance, "\n")
-		return
 	}
 	return
 }
