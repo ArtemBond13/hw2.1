@@ -49,4 +49,5 @@ func main() {
 	tinkof := transfer.Service{&tinkoff, 0, 10}
 	fmt.Println(tinkof.Card2Card("453952671345081707", "4024007196899149", 100_000_00))
 	// fmt.Println(tinkof.CardSvc.Cards)
+	tinkoff.Add(visa2)
 }

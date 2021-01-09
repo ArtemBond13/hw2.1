@@ -39,3 +39,7 @@ func (s *Service) SearchByNumber(number string) *Card {
 	}
 	return nil
 }
+
+func (s *Service) Add(cards ...*Card) {
+	cards = []*Card{}
+}
