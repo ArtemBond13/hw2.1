@@ -16,6 +16,11 @@ type Service struct {
 	Cards    []*Card
 }
 
+// NewService создает абстракцию банка
+func NewService(bankName string) *Service {
+	return &Service{BankName: bankName}
+}
+
 // IssuerCard добавляет карту
 func (s *Service) IssuerCard(id int64, issuer string, balance int64, number string) *Card {
 	card := &Card{
@@ -40,6 +45,7 @@ func (s *Service) SearchByNumber(number string) *Card {
 	return nil
 }
 
+
 func (s *Service) Add(cards ...*Card) {
-	cards = []*Card{}
+	s.Cards = append(s.Cards, cards...)
 }
