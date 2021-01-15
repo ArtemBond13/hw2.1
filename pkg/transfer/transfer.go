@@ -26,36 +26,41 @@ func (s *Service) Card2Card(from, to string, amount int64) (total int64, ok bool
 	onTo := s.CardSvc.SearchByNumber(to)
 	cardService := NewService(s.CardSvc, 0.5, 10_00)
 
-	commission := int64(float64(amount) * cardService.PercentTransfer)
+	commission := int64(float64(amount/100) * cardService.PercentTransfer)
 	if commission < cardService.MinAmountTransfer {
 		commission = cardService.MinAmountTransfer
 	}
 
 	if ofFrom == nil && onTo == nil {
 		total = amount + commission
-		ok = true
-	} else if ofFrom == nil && onTo != nil {
-		onTo.Balance += amount
-		total = amount + commission
-		ok = true
-		fmt.Print(onTo.Balance, "\n")
-	} else if ofFrom != nil && onTo == nil {
-		total = amount + commission
-		if ofFrom.Balance < total {
-			ok = false
-			return total, ok
-		}
-		ofFrom.Balance -= total
-		ok = true
-	} else {
-		total = amount + commission
-		if ofFrom.Balance < total {
-			ok = false
-			return total, ok
-		}
-		ofFrom.Balance -= total
-		onTo.Balance += amount
-		ok = true
+
+		return total, true
 	}
-	return
+
+	if ofFrom == nil && onTo != nil {
+		onTo.Balance += amount
+		total = amount + commission
+		fmt.Print(onTo.Balance, "\n")
+
+		return total, true
+	}
+
+	if ofFrom != nil && onTo == nil {
+		total = amount + commission
+		if ofFrom.Balance < total {
+			ok = false
+			return total, ok
+		}
+		ofFrom.Balance -= total
+
+		return total, true
+	}
+	total = amount + commission
+	if ofFrom.Balance < total {
+		return total, false
+	}
+	ofFrom.Balance -= total
+	onTo.Balance += amount
+	return total, true
+
 }
