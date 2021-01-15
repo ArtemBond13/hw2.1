@@ -45,7 +45,6 @@ func (s *Service) SearchByNumber(number string) *Card {
 	return nil
 }
 
-
 func (s *Service) Add(cards ...*Card) {
 	s.Cards = append(s.Cards, cards...)
 }
